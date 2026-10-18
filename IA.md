@@ -28,6 +28,11 @@ Utilisé en conversation (claude.ai / Claude Code), avec accès à Figma et à G
 ### Étape 6 — Code
 - **[À COMPLÉTER au fur et à mesure]** : pour chaque fichier ou composant, ce que Claude a écrit, ce que j'ai compris, modifié ou refait moi-même.
 
+#### Étape 6.1 — Projet Astro + Tailwind
+- **Ce que Claude a fait** : a généré le projet Astro « minimal » avec la commande officielle, installé Tailwind avec `astro add tailwind`, ajouté `site: 'https://enzoh.fr'` dans `astro.config.mjs`, relié `global.css` à la page `index.astro` (titre et `<h1>` laissés en `[à compléter]`), rédigé `README.md`. Un build de test a réussi. Le favicon et `AGENTS.md` fournis par Astro n'ont pas été gardés.
+- **Ce que j'ai modifié** : j'ai remplacé le `[à compléter]` du `<title>` et du `<h1>` de `index.astro` par « Enzo Hillairet ».
+- **Ce que j'ai compris** : **[À COMPLÉTER par Enzo : le rôle de `src/pages/` et de `package.json`, avec mes mots]**
+
 ## Autres outils
 - **[À COMPLÉTER]** : Pinterest (références, pas d'IA) ; tout autre outil d'IA utilisé (images, textes, code) doit être listé ici.
 
