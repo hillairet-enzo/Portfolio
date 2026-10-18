@@ -1,0 +1,81 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getLangFromUrl, localePath, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang).header;
+
+const links = [
+	{ label: t.projects, href: localePath(lang, '/#projects') },
+	{ label: t.profile, href: localePath(lang, '/profile') },
+	{ label: t.contact, href: localePath(lang, '/#contact') },
+];
+
+const small = 'text-[11px] font-semibold uppercase tracking-[0.08em]';
+---
+
+<header class="relative flex items-center justify-between px-5 pt-5 md:px-20 md:pt-[26px]">
+	<span class={`${small} text-muted`}>{t.copyright}</span>
+
+	<!-- Ordinateur : la pilule de verre avec tout dedans -->
+	<nav
+		aria-label={t.navLabel}
+		class={`${small} glass hidden h-[50px] items-center gap-7 rounded-full px-6 md:flex`}
+	>
+		{links.map((l) => <a href={l.href}>{l.label}</a>)}
+		<LanguageSwitcher />
+		<ThemeToggle />
+	</nav>
+
+	<!-- Mobile : bouton MENU + interrupteur de thème -->
+	<div class={`${small} glass flex h-[42px] items-center gap-4 rounded-full pr-3 pl-4 md:hidden`}>
+		<button
+			type="button"
+			id="menu-button"
+			aria-expanded="false"
+			aria-controls="mobile-menu"
+			class="cursor-pointer uppercase"
+		>
+			{t.menu}
+		</button>
+		<ThemeToggle />
+	</div>
+
+	<!-- Mobile : panneau ouvert par le bouton MENU -->
+	<nav
+		id="mobile-menu"
+		aria-label={t.navLabel}
+		class={`${small} glass absolute top-[72px] right-5 left-5 hidden flex-col gap-5 rounded-3xl p-6 md:hidden`}
+	>
+		{links.map((l) => <a href={l.href}>{l.label}</a>)}
+		<LanguageSwitcher />
+	</nav>
+</header>
+
+<script>
+	const button = document.getElementById('menu-button');
+	const menu = document.getElementById('mobile-menu');
+
+	function setOpen(open: boolean) {
+		if (!button || !menu) return;
+		button.setAttribute('aria-expanded', String(open));
+		menu.classList.toggle('hidden', !open);
+		menu.classList.toggle('flex', open);
+	}
+
+	button?.addEventListener('click', () => {
+		setOpen(button.getAttribute('aria-expanded') !== 'true');
+	});
+
+	// Échap ferme le menu et rend le focus au bouton.
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && button?.getAttribute('aria-expanded') === 'true') {
+			setOpen(false);
+			button.focus();
+		}
+	});
+
+	// Un clic sur un lien du menu le ferme (utile pour les liens d'ancre).
+	menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+</script>

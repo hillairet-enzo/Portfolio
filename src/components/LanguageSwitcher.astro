@@ -1,0 +1,38 @@
+---
+import { getLangFromUrl, getPathForLang, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang).language;
+const labels = { en: t.labelEn, fr: t.labelFr };
+const order = ['fr', 'en'] as const; // affichage « FR | EN » comme sur la maquette
+---
+
+<!-- La langue actuelle est un simple texte en gras ; l'autre est un lien. -->
+<div class="flex items-center gap-2">
+	{
+		order.map((l, i) => (
+			<>
+				{i > 0 && (
+					<span aria-hidden="true" class="text-muted">
+						|
+					</span>
+				)}
+				{l === lang ? (
+					<span aria-current="true" class="font-semibold">
+						{l.toUpperCase()}
+					</span>
+				) : (
+					<a
+						href={getPathForLang(Astro.url, l)}
+						lang={l}
+						hreflang={l}
+						aria-label={labels[l]}
+						class="text-muted hover:text-text"
+					>
+						{l.toUpperCase()}
+					</a>
+				)}
+			</>
+		))
+	}
+</div>

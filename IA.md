@@ -33,6 +33,23 @@ Utilisé en conversation (claude.ai / Claude Code), avec accès à Figma et à G
 - **Ce que j'ai modifié** : j'ai remplacé le `[à compléter]` du `<title>` et du `<h1>` de `index.astro` par « Enzo Hillairet ».
 - **Ce que j'ai compris** : **[À COMPLÉTER par Enzo : le rôle de `src/pages/` et de `package.json`, avec mes mots]**
 
+#### Étape 6.2 — Thème clair/sombre, polices, bouton de bascule
+- **Ce que Claude a fait** : a installé les polices Inter (400, 600) et Unbounded (900) via les paquets npm Fontsource (hébergées dans le projet) ; a écrit `src/styles/global.css` (variables de couleurs clair/sombre issues de CLAUDE.md, classe `.glass`, coupure des transitions si `prefers-reduced-motion`) ; a créé `src/layouts/Layout.astro` (structure commune + petit script qui applique le thème avant l'affichage), `src/components/ThemeToggle.astro` (bouton) et les fichiers de textes `src/i18n/en.json` et `fr.json` ; a mis `index.astro` en page de test ; a ajouté la section « Polices » du README. Le build a réussi.
+- **Ce que j'ai fait / vérifié** : j'ai lancé le site en local et testé la bascule : le thème sombre s'affiche correctement (capture d'écran envoyée à Claude). J'ai demandé à Claude de rédiger les entrées de ce fichier au fil du projet pour gagner du temps ; Claude n'y écrit que ce qui s'est passé dans la conversation et laisse les lignes « compris » à compléter par moi.
+- **Ce que j'ai modifié / corrigé / rejeté** : rien à signaler pour l'instant. **[À COMPLÉTER par Enzo si tu modifies quelque chose]**
+- **Ce que j'ai compris** : **[À COMPLÉTER par Enzo]**
+
+#### Étape 6.3 — Site bilingue EN/FR
+- **Ce que Claude a fait** : a configuré `i18n` dans `astro.config.mjs` (anglais par défaut à `/`, français à `/fr/`) ; a créé `src/i18n/utils.ts` (détection de la langue dans l'adresse, accès aux textes, adresse de la même page dans l'autre langue) ; a complété `en.json` et `fr.json` ; a créé `LanguageSwitcher.astro` (lien vers l'autre langue) et `Home.astro` (contenu de l'accueil partagé par les deux langues) ; a fait lire la langue dans l'adresse à `ThemeToggle.astro` et `Layout.astro` ; a ajouté les balises `hreflang` dans `Layout.astro` ; a créé `src/pages/fr/index.astro`. Le build a réussi (2 pages, `lang` et `hreflang` vérifiés dans le HTML généré).
+- **Ce que j'ai modifié / corrigé / rejeté** : **[À COMPLÉTER par Enzo]**
+- **Ce que j'ai compris** : **[À COMPLÉTER par Enzo]**
+
+#### Étape 6.4 — En-tête
+- **Ce que Claude a fait** : a lu l'en-tête de la maquette Figma (accueil ordinateur 18:2, accueil mobile 23:2) ; a créé `src/components/Header.astro` (« © 2026 » à gauche, pilule en verre à droite ; sur mobile, bouton MENU qui ouvre un panneau, fermé aussi par Échap) ; a transformé le bouton de thème en interrupteur (`role="switch"`, `aria-checked`) ; a transformé le sélecteur de langue en « FR | EN » (langue actuelle en gras, l'autre en lien) ; a ajouté un contour de focus global dans `global.css` ; a ajouté la fonction `localePath` et les textes de l'en-tête dans les fichiers JSON ; a créé `ECARTS.md` avec les écarts avec le Figma. Les liens PROJETS, PROFIL, CONTACT pointent vers des pages ou sections qui n'existent pas encore. Le build a réussi.
+- **Décision proposée par Claude, à confirmer par Enzo** : le contenu du menu mobile n'étant pas dessiné dans le Figma, Claude y a mis les liens et la langue.
+- **Ce que j'ai modifié / corrigé / rejeté** : **[À COMPLÉTER par Enzo]**
+- **Ce que j'ai compris** : **[À COMPLÉTER par Enzo]**
+
 ## Autres outils
 - **[À COMPLÉTER]** : Pinterest (références, pas d'IA) ; tout autre outil d'IA utilisé (images, textes, code) doit être listé ici.
 

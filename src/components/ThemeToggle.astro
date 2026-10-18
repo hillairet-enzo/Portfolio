@@ -1,0 +1,42 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url)).theme;
+---
+
+<!-- Interrupteur : "role=switch" + aria-checked disent aux lecteurs d'écran
+     s'il est activé (thème sombre) ou non. -->
+<button
+	type="button"
+	role="switch"
+	aria-checked="false"
+	aria-label={t.label}
+	data-theme-toggle
+	class="glass relative h-6 w-11 shrink-0 cursor-pointer rounded-full"
+>
+	<span aria-hidden="true" class="theme-dot absolute top-1/2 left-1 h-4 w-4 rounded-full bg-text"></span>
+</button>
+
+<script>
+	// Il peut y avoir plusieurs interrupteurs sur la page (menu ordinateur et mobile).
+	const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+
+	function refresh() {
+		const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+		buttons.forEach((b) => b.setAttribute('aria-checked', String(isDark)));
+	}
+
+	buttons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const next =
+				document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+			document.documentElement.setAttribute('data-theme', next);
+			try {
+				localStorage.setItem('theme', next);
+			} catch (e) {}
+			refresh();
+		});
+	});
+
+	refresh();
+</script>

@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { getLangFromUrl, getPathForLang, languages } from '../i18n/utils';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<html lang={lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		{
+			languages.map((l) => (
+				<link
+					rel="alternate"
+					hreflang={l}
+					href={new URL(getPathForLang(Astro.url, l), Astro.site)}
+				/>
+			))
+		}
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={new URL(getPathForLang(Astro.url, 'en'), Astro.site)}
+		/>
+		<!-- S'exécute avant l'affichage : applique le thème choisi (ou celui du
+		     système) pour éviter un flash de la mauvaise couleur. -->
+		<script is:inline>
+			(function () {
+				var theme = null;
+				try {
+					theme = localStorage.getItem('theme');
+				} catch (e) {}
+				if (theme !== 'light' && theme !== 'dark') {
+					theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				}
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>

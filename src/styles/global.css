@@ -1,1 +1,76 @@
 @import "tailwindcss";
+
+/* Polices hébergées dans le projet (aucune requête vers Google) :
+   uniquement les graisses utilisées. */
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/unbounded/latin-900.css";
+
+/* Couleurs du thème clair (par défaut) */
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #6b6b6b;
+  --surface: #f2f2f2;
+}
+
+/* Couleurs du thème sombre : activé quand <html> a data-theme="dark" */
+:root[data-theme="dark"] {
+  --bg: #0d0d0d;
+  --text: #f5f5f5;
+  --muted: #a0a0a0;
+  --surface: #1b1b1b;
+}
+
+/* On dit à Tailwind que bg-bg, text-text, text-muted, bg-surface
+   utilisent ces variables, donc elles changent avec le thème. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Unbounded", system-ui, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+/* Effet « liquid glass » : fond = texte à 6 %, contour = texte à 28 %,
+   flou 18 px, ombre douce. */
+.glass {
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 28%, transparent);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.12);
+}
+
+/* Contour visible pour la navigation au clavier, sur tout le site. */
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* Rond de l'interrupteur de thème : à gauche en clair, à droite en sombre. */
+.theme-dot {
+  transform: translateY(-50%);
+  transition: transform 0.2s;
+}
+:root[data-theme="dark"] .theme-dot {
+  transform: translate(18px, -50%);
+}
+
+/* Visiteurs qui demandent moins d'animations : on coupe les transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

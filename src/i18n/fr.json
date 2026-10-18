@@ -1,0 +1,20 @@
+{
+  "header": {
+    "copyright": "© 2026",
+    "navLabel": "Navigation principale",
+    "projects": "Projets",
+    "profile": "Profil",
+    "contact": "Contact",
+    "menu": "Menu"
+  },
+  "theme": {
+    "label": "Thème sombre"
+  },
+  "language": {
+    "labelEn": "Read this site in English",
+    "labelFr": "Lire ce site en français"
+  },
+  "home": {
+    "placeholder": "Test des couleurs et des polices."
+  }
+}
