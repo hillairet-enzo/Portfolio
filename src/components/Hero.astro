@@ -1,0 +1,29 @@
+---
+import HeroStage from './HeroStage.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url)).hero;
+---
+
+<!-- Le hero remplit l'écran moins l'en-tête (76 px). Trois zones en colonne :
+     le nom, une zone libre (le globe viendra à l'étape suivante), la ligne du bas. -->
+<section class="flex min-h-[calc(100svh-4.75rem)] flex-col px-5 md:px-20">
+	<!-- "@container" : la taille du nom se calcule d'après la largeur de ce bloc
+	     (100cqw), donc il tient toujours dans la page, sans dépasser. -->
+	<div class="@container pt-8 md:pt-[12vh]">
+		<h1
+			class="font-display font-black uppercase leading-none text-[length:calc(100cqw/6.9)] md:whitespace-nowrap md:text-[length:calc(100cqw/10.75)]"
+		>
+			<!-- Deux lignes sur mobile (block), une seule sur ordinateur (inline) -->
+			<span class="block md:inline">{t.firstName}</span>{' '}
+			<span class="block md:inline">{t.lastName}</span>
+		</h1>
+	</div>
+
+	<HeroStage />
+
+	<div class="flex flex-col gap-3 pb-8 text-xs text-muted md:flex-row md:justify-between">
+		<p>{t.tagline}</p>
+		<p>{t.internship}</p>
+	</div>
+</section>

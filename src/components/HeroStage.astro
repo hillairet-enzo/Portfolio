@@ -1,0 +1,82 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url)).hero;
+
+// x et y = centre du mot, en % de la scène (calculés d'après la maquette 1440 px).
+const words = [
+	{ key: 'identity', label: t.words.identity, x: 18.1, y: 29.2 },
+	{ key: 'posters', label: t.words.posters, x: 23.6, y: 52 },
+	{ key: 'apps', label: t.words.apps, x: 80.1, y: 29.2 },
+	{ key: 'video', label: t.words.video, x: 78.9, y: 52 },
+	{ key: 'management', label: t.words.management, x: 49, y: 94 },
+];
+---
+
+<!-- La scène : le globe au centre, les cinq mots autour (ordinateur) ou en
+     dessous (mobile). -->
+<div data-stage class="relative flex flex-1 flex-col items-center py-8 md:min-h-[440px] md:py-0">
+	<!-- Le globe est décoratif : les lecteurs d'écran l'ignorent. -->
+	<!-- Le bloc extérieur place le globe ; le bloc intérieur le fait flotter
+	     (deux éléments, car les deux utilisent la propriété CSS "translate"). -->
+	<div
+		aria-hidden="true"
+		class="h-[230px] w-[230px] md:absolute md:top-[42%] md:left-1/2 md:h-[340px] md:w-[340px] md:-translate-x-1/2 md:-translate-y-1/2"
+	>
+		<div class="globe-float relative h-full w-full">
+			<div class="globe h-full w-full rounded-full"></div>
+			<div class="globe-highlight absolute top-[8%] left-[18%] h-[28%] w-[40%] rounded-full"></div>
+		</div>
+	</div>
+
+	<!-- Les mots sont de vrais boutons : survol, clavier (Tab) et toucher marchent. -->
+	<div
+		role="group"
+		aria-label={t.wordsLabel}
+		class="mt-8 flex flex-wrap gap-2 md:mt-0 md:block"
+	>
+		{
+			words.map((w) => (
+				<button
+					type="button"
+					data-word={w.key}
+					aria-pressed="false"
+					style={`--x:${w.x}%;--y:${w.y}%`}
+					class="word-pill glass cursor-pointer rounded-full px-[17px] py-[10px] text-[11px] font-semibold uppercase tracking-[0.08em] md:absolute md:top-[var(--y)] md:left-[var(--x)] md:-translate-x-1/2 md:-translate-y-1/2 md:px-[19px] md:py-[11px]"
+				>
+					{w.label}
+				</button>
+			))
+		}
+	</div>
+</div>
+
+<script>
+	const stage = document.querySelector<HTMLElement>('[data-stage]');
+	const words = stage?.querySelectorAll<HTMLButtonElement>('[data-word]');
+	let pinned: string | null = null; // mot « épinglé » par un clic ou un toucher
+
+	// Affiche le mot survolé, sinon le mot épinglé, sinon rien.
+	function render(hovered: string | null = null) {
+		if (!stage || !words) return;
+		const active = hovered ?? pinned;
+		if (active) stage.dataset.active = active;
+		else delete stage.dataset.active;
+		words.forEach((w) => {
+			w.toggleAttribute('data-on', w.dataset.word === active);
+			w.setAttribute('aria-pressed', String(w.dataset.word === pinned));
+		});
+	}
+
+	words?.forEach((w) => {
+		const key = w.dataset.word!;
+		w.addEventListener('mouseenter', () => render(key));
+		w.addEventListener('mouseleave', () => render());
+		w.addEventListener('focus', () => render(key));
+		w.addEventListener('blur', () => render());
+		w.addEventListener('click', () => {
+			pinned = pinned === key ? null : key;
+			render(key);
+		});
+	});
+</script>

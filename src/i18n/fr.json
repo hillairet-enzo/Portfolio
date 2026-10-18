@@ -14,7 +14,18 @@
     "labelEn": "Read this site in English",
     "labelFr": "Lire ce site en français"
   },
-  "home": {
-    "placeholder": "Test des couleurs et des polices."
+  "hero": {
+    "firstName": "Enzo",
+    "lastName": "Hillairet",
+    "tagline": "Étudiant créatif et gestion de projet (BUT MMI)",
+    "internship": "Stage · 29 mars – 4 juin",
+    "wordsLabel": "Ce que je fabrique",
+    "words": {
+      "identity": "Identité visuelle",
+      "posters": "Affiches",
+      "apps": "Applis & sites web",
+      "video": "Vidéo",
+      "management": "Gestion de projet"
+    }
   }
 }

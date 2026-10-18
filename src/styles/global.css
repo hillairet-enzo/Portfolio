@@ -12,6 +12,7 @@
   --text: #111111;
   --muted: #6b6b6b;
   --surface: #f2f2f2;
+  --glass-highlight: rgb(255 255 255 / 0.9);
 }
 
 /* Couleurs du thème sombre : activé quand <html> a data-theme="dark" */
@@ -20,6 +21,7 @@
   --text: #f5f5f5;
   --muted: #a0a0a0;
   --surface: #1b1b1b;
+  --glass-highlight: rgb(255 255 255 / 0.2);
 }
 
 /* On dit à Tailwind que bg-bg, text-text, text-muted, bg-surface
@@ -48,6 +50,48 @@ body {
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   box-shadow: 0 8px 32px rgb(0 0 0 / 0.12);
+}
+
+/* Globe en verre : un dégradé radial (reflet en haut à gauche), un contour,
+   un flou d'arrière-plan et une ombre. Les couleurs viennent du thème. */
+.globe {
+  background: radial-gradient(
+    circle at 32% 26%,
+    color-mix(in srgb, var(--text) 16%, transparent),
+    color-mix(in srgb, var(--text) 6%, transparent) 55%,
+    color-mix(in srgb, var(--text) 14%, transparent) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--text) 28%, transparent);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 24px 48px rgb(0 0 0 / 0.14),
+    inset 0 -12px 24px color-mix(in srgb, var(--text) 8%, transparent);
+  transition: transform 0.3s;
+}
+.globe-highlight {
+  background: radial-gradient(ellipse at 40% 30%, var(--glass-highlight), transparent 70%);
+}
+/* Un mot est survolé, ciblé au clavier ou épinglé : le globe réagit. */
+[data-active] .globe {
+  transform: scale(1.04);
+}
+.word-pill[data-on] {
+  background: color-mix(in srgb, var(--text) 16%, transparent);
+}
+
+/* Lent flottement du globe (coupé si le visiteur demande moins d'animations). */
+@keyframes float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+.globe-float {
+  animation: float 8s ease-in-out infinite;
 }
 
 /* Contour visible pour la navigation au clavier, sur tout le site. */

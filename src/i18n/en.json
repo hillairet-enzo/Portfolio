@@ -14,7 +14,18 @@
     "labelEn": "Read this site in English",
     "labelFr": "Lire ce site en français"
   },
-  "home": {
-    "placeholder": "Colour and font test."
+  "hero": {
+    "firstName": "Enzo",
+    "lastName": "Hillairet",
+    "tagline": "Creative & project management student (BUT MMI)",
+    "internship": "Internship · 29 March – 4 June",
+    "wordsLabel": "What I make",
+    "words": {
+      "identity": "Brand identity",
+      "posters": "Posters",
+      "apps": "Apps & websites",
+      "video": "Video",
+      "management": "Project management"
+    }
   }
 }
